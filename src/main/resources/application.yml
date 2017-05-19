@@ -11,3 +11,9 @@ spring:
     username: root
     password: 123
     driver-class-name: com.mysql.jdbc.Driver
+  # Spring Batch Configuration
+  batch:
+    job:
+      enabled: false
+    
+
