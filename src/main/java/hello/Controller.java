@@ -25,18 +25,13 @@ public class Controller {
 	JobRegistry jobRegistry;
 	
 	@RequestMapping
-	public void launchJob(@RequestParam String headers) {
-		
-	/*	jobParameters = new JobParametersBuilder().addLong("time", System.currentTimeMillis())
-				.addString("pathToFile", dncFileLocation + headerMap.get("fileName")).addString("type", type)
-				.addString("headers", header).addString("clientCompanyId", clientCompanyId)
-				.addLong("total",
-						(long) FileFolderUtils.getNumberOfLines(dncFileLocation + headerMap.get("fileName")) - 1)
-				.toJobParameters();*/
+	public void launchJob(@RequestParam String headers, @RequestParam String outputType) {
 		
 		JobParameters parameter = new JobParametersBuilder()
 			.addLong("time", System.currentTimeMillis())
 			.addString("headers", headers)
+			.addString("outputFilename", "/home/lt105/")
+			.addString("outputType", outputType)
 			.toJobParameters();
 		
 		try {

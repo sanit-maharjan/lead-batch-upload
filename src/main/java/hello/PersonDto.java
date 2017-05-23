@@ -9,6 +9,7 @@ public class PersonDto {
 	private String position;
 	private String phone;
 	private String address;
+	private String outputType;
 
 	public PersonDto() {
 		super();
@@ -88,5 +89,15 @@ public class PersonDto {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	public String getOutputType() {
+		return outputType;
+	}
+
+	public void setOutputType(String outputType) {
+		this.outputType = outputType;
+	}
+	
+	
 
 }
