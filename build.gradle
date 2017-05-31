@@ -31,7 +31,9 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.apache.poi:poi:3.11')
     compile('org.apache.poi:poi-ooxml:3.11')
-    
+    //quartz
+	compile 'org.quartz-scheduler:quartz:2.2.1'
+	compile 'org.quartz-scheduler:quartz-jobs:2.2.1'
     testCompile("junit:junit")
 }
 

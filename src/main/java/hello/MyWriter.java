@@ -19,7 +19,7 @@ public class MyWriter implements ItemWriter<PersonDto> {
 			company = this.companyRepository.save(company);
 			Person person = new Person(personDto.getFirstName(), personDto.getLastName(), 
 					personDto.getGender(), company.getId());
-			
+			System.out.println("wrinting to mysql");
 			this.personRepository.save(person);
 		}
 		

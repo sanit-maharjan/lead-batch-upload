@@ -1,15 +1,15 @@
 package hello;
 
 public class PersonDto {
-	private String lastName;
-	private String firstName;
-	private String email;
-	private String gender;
-	private String company;
-	private String position;
-	private String phone;
-	private String address;
-	private String outputType;
+	public String lastName;
+	public String firstName;
+	public String email;
+	public String gender;
+	public String company;
+	public String position;
+	public String phone;
+	public String address;
+	public String outputType;
 
 	public PersonDto() {
 		super();

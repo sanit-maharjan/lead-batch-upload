@@ -2,7 +2,7 @@ package hello;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -142,37 +142,19 @@ public class ExcelWriter implements ItemWriter<PersonDto>, ItemStreamWriter<Pers
 		cell.setCellValue(val);
 	}
 	
-	public Map<String, String> getRowData(PersonDto data) {
+	public Map<String, String> getRowData(PersonDto data) throws IllegalArgumentException, IllegalAccessException {
 		Map<String, String> row = new HashMap<>();
+		Class mapper = data.getClass();
+		Field[] fields = mapper.getDeclaredFields();
+		
 		for (String header : HEADERS) {
-			switch (header) {
-			case "firstName":
-				row.put("firstName", data.getFirstName());
-				break;
-			case "lastName":
-				row.put("lastName", data.getLastName());
-				break;
-			case "email":
-				row.put("email", data.getEmail());
-				break;
-			case "gender":
-				row.put("gender", data.getGender());
-				break;
-			case "company":
-				row.put("company", data.getCompany());
-				break;
-			case "position":
-				row.put("position", data.getPosition());
-				break;
-			case "phone":
-				row.put("phone", data.getPhone());
-				break;
-			case "address":
-				row.put("address", data.getAddress());
-				break;			
-			default:
-				break;
-			}			
+			for (Field field : fields) {
+				if (header.equals(field.getName())) {
+					row.put(header, field.get(data).toString());
+					
+				}
+			
+			}
 		}
 		return row;
 	}
@@ -181,7 +163,8 @@ public class ExcelWriter implements ItemWriter<PersonDto>, ItemStreamWriter<Pers
 	public void open(ExecutionContext executionContext)
 			throws ItemStreamException {
 		
-	/*	outputFilename =  outputFilename + new Date().getTime() + ".xlsx";
+		System.out.println("BEEEEFFFORE step");
+		outputFilename =  outputFilename + new Date().getTime() + ".xlsx";
 
 		workbook = new SXSSFWorkbook(100);
 		Sheet sheet = workbook.createSheet("Testing");
@@ -190,7 +173,7 @@ public class ExcelWriter implements ItemWriter<PersonDto>, ItemStreamWriter<Pers
 
 		addTitleToSheet(sheet);
 		addHeaders(sheet);
-		initDataStyle();*/
+		initDataStyle();
 
 	}
 
@@ -203,7 +186,16 @@ public class ExcelWriter implements ItemWriter<PersonDto>, ItemStreamWriter<Pers
 
 	@Override
 	public void close() throws ItemStreamException {
-		// TODO Auto-generated method stub
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(outputFilename);
+			workbook.write(fos);
+			fos.close();
+			System.out.println("AAAAAAAAAAAAAAAAAafer step");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
 

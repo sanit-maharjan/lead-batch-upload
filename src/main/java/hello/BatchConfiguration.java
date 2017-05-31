@@ -131,7 +131,7 @@ public class BatchConfiguration {
 		aggregaor.setFieldExtractor(fieldExtractor);
 	   writer.setLineAggregator(aggregaor);
 	   ExecutionContext executionContext = new ExecutionContext();
-	writer.open(executionContext);
+	   writer.open(executionContext);
 	   return writer;
    }
    
@@ -174,11 +174,10 @@ public class BatchConfiguration {
    public CompositeItemWriter<PersonDto> compositeWriter(
 		   @Value("#{jobParameters[outputFilename]}") String outputFilename,
 		   @Value("#{jobParameters[headers]}") String headers, 
-		   FlatFileItemWriter<PersonDto> cvsFileItemWriter) {
-	  ExcelWriter excelWriter = new ExcelWriter(outputFilename, headers);
-	   //excelWriter.open(new ExecutionContext());
+		   FlatFileItemWriter<PersonDto> cvsFileItemWriter,
+		   ClassifierCompositeItemWriter<PersonDto> classifierWriter) {
 	   CompositeItemWriter<PersonDto> writer = new CompositeItemWriter<>();
-	   writer.setDelegates(Arrays.asList(excelWriter));
+	   writer.setDelegates(Arrays.asList(mysqlWriter(), classifierWriter));
 	   return writer;
    }
    
@@ -208,7 +207,7 @@ public class BatchConfiguration {
                 .<PersonDto, PersonDto> chunk(1000)
                 .reader(reader())
                 .processor(processor)
-                .writer(cvsFileItemWriter)
+                .writer(compositeWriter)
                 .build();
     }
     // end::jobstep[]
